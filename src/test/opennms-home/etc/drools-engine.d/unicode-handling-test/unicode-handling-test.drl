@@ -1,0 +1,8 @@
+package org.opennms.netmgt.correlation.drools
+
+import org.opennms.netmgt.correlation.drools.DroolsCorrelationEngine
+import org.opennms.netmgt.model.events.EventBuilder
+import org.opennms.netmgt.xml.event.Event
+import org.opennms.netmgt.xml.event.Parm
+import org.opennms.netmgt.xml.event.Value
+import org.slf4j.Logger
