@@ -6,3 +6,50 @@ import org.opennms.netmgt.xml.event.Event
 import org.opennms.netmgt.xml.event.Parm
 import org.opennms.netmgt.xml.event.Value
 import org.slf4j.Logger
+import org.opennms.core.xml.JaxbUtils
+
+global DroolsCorrelationEngine engine;
+global Logger LOG;
+
+rule "event.host"
+  no-loop true
+  when
+    $e : Event(uei == "uei.opennmms.org/tests/unicode/eventhost", host != null, $host : host)
+    not Parm(parmName == "unicode_parm") from $e.parmCollection
+    not Parm(parmName == "processed") from $e.parmCollection
+  then
+    LOG.info("event_host :: Received event with host = {}", $host);
+    modify($e) {
+        addParm( new Parm("processed","true") ),
+        addParm( new Parm("processed_host",$host) )
+    };
+  end
+
+rule "eventparm unicode_parm"
+  no-loop true
+  when
+    $e : Event(uei == "uei.opennmms.org/tests/unicode/eventparm")
+    Parm(parmName == "unicode_parm", value != "", $parmValue : value) from $e.parmCollection
+    not Parm(parmName == "processed") from $e.parmCollection
+  then
+    LOG.info("eventparm:unicode_parm :: Received event with unicode_parm = {}", $parmValue);
+    modify($e) {
+        addParm( new Parm("processed","true") ),
+        addParm( new Parm("processed_parm", $parmValue.getContent()) )
+    };
+  end
+
+rule "eventparm unicode_parm serialize"
+  no-loop true
+  when
+    $e : Event(uei == "uei.opennmms.org/tests/unicode/eventparm/serialize")
+    Parm(parmName == "unicode_parm", value != "", $parmValue : value) from $e.parmCollection
+    not Parm(parmName == "processed") from $e.parmCollection
+  then
+    LOG.info("eventparm:unicode_parm:serialize :: Received event with unicode_parm = {}", $parmValue);
+    delete($e);
+    Event serializedEvent = JaxbUtils.unmarshal(Event.class, JaxbUtils.marshal($e));
+    serializedEvent.addParm( new Parm("processed","true") );
+    serializedEvent.addParm( new Parm("processed_parm", $parmValue.getContent()) );
+    insert(serializedEvent);
+  end

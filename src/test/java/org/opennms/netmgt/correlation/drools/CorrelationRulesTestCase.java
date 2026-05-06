@@ -26,7 +26,7 @@
  *     http://www.opennms.com/
  *******************************************************************************/
 
-package com.example.sample.drools;
+package org.opennms.netmgt.correlation.drools;
 
 import static org.junit.Assert.assertEquals;
 import static org.opennms.core.utils.InetAddressUtils.addr;
@@ -56,7 +56,6 @@ import org.springframework.test.context.ContextConfiguration;
 @RunWith(OpenNMSJUnit4ClassRunner.class)
 @ContextConfiguration(
     locations = {
-      //"classpath:META-INF/opennms/applicationContext-daemon.xml",
       "classpath:META-INF/opennms/applicationContext-soa.xml",
       "classpath:META-INF/opennms/mockEventIpcManager.xml",
       "classpath:META-INF/opennms/correlation-engine.xml",

@@ -1,0 +1,12 @@
+<engine-configuration
+  xmlns="http://xmlns.opennms.org/xsd/drools-engine"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.opennms.org/xsd/drools-engine http://xmlns.opennms.org/xsd/drools-engine.xsd">
+    <rule-set name="unicode-handling-tests" event-processing-mode="stream">
+        <rule-file>unicode-handling-test.drl</rule-file>
+        <event>uei.opennmms.org/tests/unicode/eventhost</event>
+        <event>uei.opennmms.org/tests/unicode/eventparm</event>
+        <app-context>unicode-handling-test-context.xml</app-context>
+        <global name="LOG" ref="slf4jLogger"/>
+    </rule-set>
+</engine-configuration>

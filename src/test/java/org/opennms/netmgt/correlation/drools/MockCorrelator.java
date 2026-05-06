@@ -26,7 +26,7 @@
  *     http://www.opennms.com/
  *******************************************************************************/
 
-package com.example.sample.drools;
+package org.opennms.netmgt.correlation.drools;
 
 import java.util.Arrays;
 import java.util.Collection;
