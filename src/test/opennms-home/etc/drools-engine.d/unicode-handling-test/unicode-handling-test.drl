@@ -29,13 +29,13 @@ rule "eventparm unicode_parm"
   no-loop true
   when
     $e : Event(uei == "uei.opennmms.org/tests/unicode/eventparm")
-    Parm(parmName == "unicode_parm", value != "", $parmValue : value) from $e.parmCollection
+    Parm(parmName == "unicode_parm", value != "", $parmValue : value.content) from $e.parmCollection
     not Parm(parmName == "processed") from $e.parmCollection
   then
-    LOG.info("eventparm:unicode_parm :: Received event with unicode_parm = {}", $parmValue);
+    LOG.info("eventparm:unicode_parm :: Received event with unicode_parm = {}", (String)$parmValue);
     modify($e) {
         addParm( new Parm("processed","true") ),
-        addParm( new Parm("processed_parm", $parmValue.getContent()) )
+        addParm( new Parm("processed_parm", $parmValue) )
     };
   end
 
@@ -43,13 +43,13 @@ rule "eventparm unicode_parm serialize"
   no-loop true
   when
     $e : Event(uei == "uei.opennmms.org/tests/unicode/eventparm/serialize")
-    Parm(parmName == "unicode_parm", value != "", $parmValue : value) from $e.parmCollection
+    Parm(parmName == "unicode_parm", value != "", $parmValue : value.content) from $e.parmCollection
     not Parm(parmName == "processed") from $e.parmCollection
   then
-    LOG.info("eventparm:unicode_parm:serialize :: Received event with unicode_parm = {}", $parmValue);
+    LOG.info("eventparm:unicode_parm:serialize :: Received event with unicode_parm = {}", (String)$parmValue);
     delete($e);
     Event serializedEvent = JaxbUtils.unmarshal(Event.class, JaxbUtils.marshal($e));
-    serializedEvent.addParm( new Parm("processed","true") );
-    serializedEvent.addParm( new Parm("processed_parm", $parmValue.getContent()) );
+    serializedEvent.addParm( new Parm("processed", "true") );
+    serializedEvent.addParm( new Parm("processed_parm", $parmValue) );
     insert(serializedEvent);
   end

@@ -6,6 +6,7 @@
         <rule-file>unicode-handling-test.drl</rule-file>
         <event>uei.opennmms.org/tests/unicode/eventhost</event>
         <event>uei.opennmms.org/tests/unicode/eventparm</event>
+        <event>uei.opennmms.org/tests/unicode/eventparm/serialize</event>
         <app-context>unicode-handling-test-context.xml</app-context>
         <global name="LOG" ref="slf4jLogger"/>
     </rule-set>
